@@ -4,6 +4,7 @@
 VENV_PATH=$(poetry env info --path 2>/dev/null)
 EXECUTABLE_NAME="cz"
 GLOBAL_PATH="/usr/local/bin/$EXECUTABLE_NAME"
+COMPLETION_FILE="$HOME/.zsh/completions/_cz"
 
 # Vérifie si Poetry est installé
 if ! command -v poetry &> /dev/null; then
