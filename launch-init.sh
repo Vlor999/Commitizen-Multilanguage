@@ -13,8 +13,16 @@ fi
 
 # Vérifie si l'environnement virtuel est disponible
 if [ -z "$VENV_PATH" ]; then
-    echo "Aucun environnement virtuel trouvé pour ce projet. Veuillez l'initialiser avec 'poetry install'."
-    exit 1
+    echo "Aucun environnement virtuel trouvé pour ce projet."
+    echo "Création de l'environnement virtuel avec 'poetry install'..."
+    poetry install
+    VENV_PATH=$(poetry env info --path 2>/dev/null)
+    
+    # Vérifie si l'installation a réussi
+    if [ -z "$VENV_PATH" ]; then
+        echo "Échec de la création de l'environnement virtuel. Veuillez vérifier les erreurs et réessayer."
+        exit 1
+    fi
 fi
 
 # Vérifie si le fichier cz existe dans le virtualenv
