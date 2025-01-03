@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/zsh
 
 # Variables
 VENV_PATH=$(poetry env info --path 2>/dev/null)
