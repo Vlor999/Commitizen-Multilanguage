@@ -1,0 +1,4 @@
+include .bumpversion.cfg
+include LICENSE
+include commitizen/cz/*.txt
+global-exclude *.py[cod] __pycache__ *.so *.dylib
