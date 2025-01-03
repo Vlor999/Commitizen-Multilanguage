@@ -41,6 +41,46 @@ fi
 echo "Création du lien symbolique global pour '$EXECUTABLE_NAME'..."
 sudo ln -s "$VENV_PATH/bin/$EXECUTABLE_NAME" "$GLOBAL_PATH"
 
+# Crée le fichier d'autocomplétion pour cz
+echo "Création du fichier d'autocomplétion pour '$EXECUTABLE_NAME'..."
+
+mkdir -p "$HOME/.zsh/completions"
+
+cat <<'EOF' > "$COMPLETION_FILE"
+# Fichier d'auto-complétion pour cz (Commitizen)
+
+_cz() {
+    local commands
+    commands=(
+        "init: Initialiser un nouveau projet"
+        "bump: Mettre à jour la version"
+        "changelog: Générer un changelog"
+        "check: Vérifier la conformité des messages de commit"
+        "version: Afficher la version de Commitizen"
+        "help: Afficher l'aide"
+    )
+    _describe 'commande' commands
+}
+
+compdef _cz cz
+EOF
+
+# Assure-toi que Zsh peut charger les complétions
+echo "Ajout du répertoire des complétions à Zsh..."
+
+if ! grep -q "fpath=(~/.zsh/completions \$fpath)" "$HOME/.zshrc"; then
+    echo 'fpath=(~/.zsh/completions $fpath)' >> "$HOME/.zshrc"
+fi
+
+if ! grep -q "autoload -Uz compinit" "$HOME/.zshrc"; then
+    echo 'autoload -Uz compinit' >> "$HOME/.zshrc"
+    echo 'compinit' >> "$HOME/.zshrc"
+fi
+
+# Recharge le fichier .zshrc pour prendre en compte les modifications
+echo "Recharge du fichier .zshrc..."
+source "$HOME/.zshrc"
+
 # Vérifie si le lien symbolique fonctionne
 if command -v "$EXECUTABLE_NAME" &> /dev/null; then
     echo "'$EXECUTABLE_NAME' est maintenant disponible globalement."
