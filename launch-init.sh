@@ -47,6 +47,7 @@ echo "Création du fichier d'autocomplétion pour '$EXECUTABLE_NAME'..."
 
 mkdir -p "$HOME/.zsh/completions"
 
+# Écrire l'autocomplétion
 cat <<'EOF' > "$COMPLETION_FILE"
 # Fichier d'auto-complétion pour cz (Commitizen)
 
@@ -66,21 +67,54 @@ _cz() {
 compdef _cz cz
 EOF
 
-# Assure-toi que Zsh peut charger les complétions
-echo "Ajout du répertoire des complétions à Zsh..."
+# Ajout du répertoire des complétions à Zsh ou Bash
+echo "Ajout du répertoire des complétions au shell..."
 
-if ! grep -q "fpath=(~/.zsh/completions \$fpath)" "$HOME/.zshrc"; then
-    echo 'fpath=(~/.zsh/completions $fpath)' >> "$HOME/.zshrc"
+# Si Zsh est utilisé
+if [ "$SHELL" = "/bin/zsh" ]; then
+    if ! grep -q "fpath=(~/.zsh/completions \$fpath)" "$HOME/.zshrc"; then
+        echo 'fpath=(~/.zsh/completions $fpath)' >> "$HOME/.zshrc"
+    fi
+
+    if ! grep -q "autoload -Uz compinit" "$HOME/.zshrc"; then
+        echo 'autoload -Uz compinit' >> "$HOME/.zshrc"
+        echo 'compinit' >> "$HOME/.zshrc"
+    fi
+
+# Si Bash est utilisé
+elif [ "$SHELL" = "/bin/bash" ]; then
+    if ! grep -q "source ~/.bash_completion" "$HOME/.bashrc"; then
+        echo 'source ~/.bash_completion' >> "$HOME/.bashrc"
+    fi
+
+    # Créer un fichier de complétion Bash
+    cat <<'EOF' > "$HOME/.bash_completion"
+# Complétion pour Commitizen (cz)
+
+_cz() {
+    local commands
+    commands=(
+        "init: Initialiser un nouveau projet"
+        "bump: Mettre à jour la version"
+        "changelog: Générer un changelog"
+        "check: Vérifier la conformité des messages de commit"
+        "version: Afficher la version de Commitizen"
+        "help: Afficher l'aide"
+    )
+    COMPREPLY=($(compgen -W "${commands[*]}" -- "${COMP_WORDS[1]}"))
+    return 0
+}
+
+complete -F _cz cz
+EOF
+    # Recharge Bashrc
+    source "$HOME/.bashrc"
 fi
 
-if ! grep -q "autoload -Uz compinit" "$HOME/.zshrc"; then
-    echo 'autoload -Uz compinit' >> "$HOME/.zshrc"
-    echo 'compinit' >> "$HOME/.zshrc"
-fi
-
-# Recharge le fichier .zshrc pour prendre en compte les modifications
-echo "Recharge du fichier .zshrc..."
-source "$HOME/.zshrc"
+# Recharge le fichier .zshrc ou .bashrc pour prendre en compte les modifications
+echo "Recharge du fichier de configuration du shell..."
+source "$HOME/.zshrc" 2>/dev/null
+source "$HOME/.bashrc" 2>/dev/null
 
 # Vérifie si le lien symbolique fonctionne
 if command -v "$EXECUTABLE_NAME" &> /dev/null; then
