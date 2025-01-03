@@ -1,11 +1,7 @@
 [![GitHub Workflow Status](https://img.shields.io/github/actions/workflow/status/commitizen-tools/commitizen/pythonpackage.yml?label=python%20package&logo=github&logoColor=white&style=flat-square)](https://github.com/commitizen-tools/commitizen/actions)
 [![Conventional Commits](https://img.shields.io/badge/Conventional%20Commits-1.0.0-yellow.svg?style=flat-square)](https://conventionalcommits.org)
 [![PyPI Package latest release](https://img.shields.io/pypi/v/commitizen.svg?style=flat-square)](https://pypi.org/project/commitizen/)
-[![PyPI Package download count (per month)](https://img.shields.io/pypi/dm/commitizen?style=flat-square)](https://pypi.org/project/commitizen/)
 [![Supported versions](https://img.shields.io/pypi/pyversions/commitizen.svg?style=flat-square)](https://pypi.org/project/commitizen/)
-[![Conda Version](https://img.shields.io/conda/vn/conda-forge/commitizen?style=flat-square)](https://anaconda.org/conda-forge/commitizen)
-[![homebrew](https://img.shields.io/homebrew/v/commitizen?color=teal&style=flat-square)](https://formulae.brew.sh/formula/commitizen)
-[![Codecov](https://img.shields.io/codecov/c/github/commitizen-tools/commitizen.svg?style=flat-square)](https://codecov.io/gh/commitizen-tools/commitizen)
 [![pre-commit](https://img.shields.io/badge/pre--commit-enabled-brightgreen?style=flat-square&logo=pre-commit&logoColor=white)](https://github.com/pre-commit/pre-commit)
 
 ![Using commitizen cli](images/demo.gif)
@@ -47,54 +43,26 @@ descriptive commits.
 
 ## Installation
 
-Install commitizen in your system using `pipx` (Recommended, <https://pypa.github.io/pipx/installation/>):
-
-```bash
-pipx ensurepath
-pipx install commitizen
-pipx upgrade commitizen
+Install commitizen
+```sh
+git clone git@github.com:Vlor999/Commitizen-Multilanguage.git
 ```
 
-Install commitizen using `pip` with `--user` flag:
-
-```bash
-pip install --user -U commitizen
+Move to the dircetory and launch the launcher :
+```sh
+./launch-init.sh
 ```
+Make sure it do have the execution access
 
-### Python project
+## Must Have 
 
-You can add it to your local project using one of the following.
-
-With `pip`:
-
-```bash
-pip install -U commitizen
+Poetry : 
+```sh
+sudo apt install poetry
 ```
-
-With `conda`:
-
-```bash
-conda install -c conda-forge commitizen
-```
-
-With Poetry >= 1.2.0:
-
-```bash
-poetry add commitizen --group dev
-```
-
-With Poetry < 1.2.0:
-
-```bash
-poetry add commitizen --dev
-```
-
-### macOS
-
-via [homebrew](https://formulae.brew.sh/formula/commitizen):
-
-```bash
-brew install commitizen
+or  more generaly :
+```sh
+pip install poetry
 ```
 
 ## Usage
@@ -117,19 +85,21 @@ Read more in the section [Getting Started](./getting_started.md).
 
 ```sh
 $ cz --help
-usage: cz [-h] [--debug] [-n NAME] [-nr NO_RAISE] {init,commit,c,ls,example,info,schema,bump,changelog,ch,check,version} ...
+usage: cz [-h] [--config CONFIG] [--debug] [-n NAME] [-nr NO_RAISE] [-language LANGUAGE]
+          {init,commit,c,ls,example,info,schema,bump,changelog,ch,check,version} ...
 
 Commitizen is a cli tool to generate conventional commits.
 For more information about the topic go to https://conventionalcommits.org/
 
-optional arguments:
+options:
   -h, --help            show this help message and exit
-  --config              the path of configuration file
+  --config CONFIG       the path of configuration file
   --debug               use debug mode
-  -n NAME, --name NAME  use the given commitizen (default: cz_conventional_commits)
-  -nr NO_RAISE, --no-raise NO_RAISE
-                        comma separated error codes that won't rise error, e.g: cz -nr 1,2,3 bump. See codes at https://commitizen-
-                        tools.github.io/commitizen/exit_codes/
+  -n, --name NAME       use the given commitizen (default: cz_conventional_commits)
+  -nr, --no-raise NO_RAISE
+                        comma separated error codes that won't rise error, e.g: cz -nr 1,2,3 bump. See codes at
+                        https://commitizen-tools.github.io/commitizen/exit_codes/
+  -language LANGUAGE    language of the commit message (default: en).
 
 commands:
   {init,commit,c,ls,example,info,schema,bump,changelog,ch,check,version}
@@ -142,7 +112,8 @@ commands:
     bump                bump semantic version based on the git log
     changelog (ch)      generate changelog (note that it will overwrite existing file)
     check               validates that a commit message matches the commitizen schema
-    version             get the version of the installed commitizen or the current project (default: installed commitizen)
+    version             get the version of the installed commitizen or the current project (default: installed
+                        commitizen)
 ```
 
 ## Setting up bash completion
@@ -170,14 +141,3 @@ eval "$(register-python-argcomplete cz)"
 ```
 
 For further information on activation, please visit the [argcomplete website](https://kislyuk.github.io/argcomplete/).
-
-## Sponsors
-
-These are our cool sponsors!
-
-<!-- sponsors --><!-- sponsors -->
-
-[conventional_commits]: https://www.conventionalcommits.org
-[semver]: https://semver.org/
-[keepchangelog]: https://keepachangelog.com/
-[gitscm]: https://git-scm.com/downloads
