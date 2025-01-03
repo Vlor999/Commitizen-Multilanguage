@@ -112,7 +112,9 @@ data = {
             "name": ["-language"],
             "type": str,
             "default": "en",
-            "help": "language of the commit message (default: en). Available languages: enGLISH, frENCH. others are welcome",
+            "help": "language of the commit message (default: en). All languages are supported by the commitizen project, some languages may take some time to be launch due to the translation process. \
+                Once you have translate one time the next time will be faster. \n\
+                Supported languages : fr, en, it, ...",
         },
     ],
     "subcommands": {
